@@ -39,6 +39,12 @@ namespace LowResAdventure
                                 type = TileType.GRASS;
                                 break;
                             case 2:
+                                type = TileType.GRASS2;
+                                break;
+                            case 3:
+                                type = TileType.GRASS3;
+                                break;
+                            case 4:
                                 type = TileType.DIRT;
                                 break;
                         }
@@ -56,9 +62,14 @@ namespace LowResAdventure
             {
                 if (kvp.Key.Z == 0)
                 {
-                    Vector2 pos = new Vector2(kvp.Key.X * GameManager.tileSize * GameManager.scale, kvp.Key.Y * GameManager.tileSize * GameManager.scale);
-                    Texture2D texture = kvp.Value.GetTexture();
-                    spriteBatch.Draw(texture, pos, null, null, null, 0.0f, new Vector2(GameManager.scale, GameManager.scale), Color.White);
+                    var destinationRectangle = new Rectangle(
+                            (int)(kvp.Key.X * TextureManager.TILE_SIZE * TextureManager.SCALE),
+                            (int)(kvp.Key.Y * TextureManager.TILE_SIZE * TextureManager.SCALE),
+                            (int)(TextureManager.TILE_SIZE * TextureManager.SCALE),
+                            (int)(TextureManager.TILE_SIZE * TextureManager.SCALE));
+
+                    var textureRectangle = kvp.Value.GetTextureRectangle();
+                    spriteBatch.Draw(TextureManager.tileSheet, destinationRectangle, textureRectangle, Color.White);
                 }
             }
         }

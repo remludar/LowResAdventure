@@ -10,12 +10,18 @@ namespace LowResAdventure
 {
     public static class Player
     {
-        public static Texture2D texture;
 
         public static int moveSpeed = 16;
         public static Vector2 position = Vector2.Zero;
         public static Vector2 moveVector = Vector2.Zero;
+
+        static Rectangle textureRectangle;
         static float lerpFactor = 0.05f;
+
+        public static void Init()
+        {
+            var success = TextureManager.textureDictionary.TryGetValue(TileType.PLAYER, out textureRectangle);
+        }
 
         public static void Update(float deltaTime)
         {
@@ -47,8 +53,13 @@ namespace LowResAdventure
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            var pos = new Vector2(position.X * GameManager.tileSize * GameManager.scale, position.Y * GameManager.tileSize * GameManager.scale);
-            spriteBatch.Draw(texture, pos, null, null, null, 0.0f, new Vector2(GameManager.scale, GameManager.scale), Color.White);
+            var destinationRectangle = new Rectangle(
+                    (int)(position.X * TextureManager.TILE_SIZE * TextureManager.SCALE),
+                    (int)(position.Y * TextureManager.TILE_SIZE * TextureManager.SCALE),
+                    (int)(TextureManager.TILE_SIZE * TextureManager.SCALE),
+                    (int)(TextureManager.TILE_SIZE * TextureManager.SCALE));
+
+            spriteBatch.Draw(TextureManager.tileSheet, destinationRectangle, textureRectangle, Color.White);
         }
     }
 }

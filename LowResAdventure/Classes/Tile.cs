@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,39 +8,45 @@ using System.Threading.Tasks;
 
 namespace LowResAdventure
 {
-    public enum TileType { EMPTY, GRASS, DIRT };
+    public enum TileType { EMPTY, PLAYER, GRASS, GRASS2, GRASS3, DIRT };
 
     public class Tile
     {
         private TileType _type;
-        private Texture2D _texture;
+        private Rectangle textureRectangle;
 
         public Tile(TileType type)
         {
             _type = type;
-            _SetTexture();
+            _SetTextureRectangle();
         }
 
-        private void _SetTexture()
+        private void _SetTextureRectangle()
         {
-            int grassType = World.rnd.Next(1, 4);
+            var success = false;
             switch (_type)
             {
                 case TileType.EMPTY:
-                    _texture = GameManager.textures[0];
+                    success = (!TextureManager.textureDictionary.TryGetValue(TileType.EMPTY, out textureRectangle));
                     break;
                 case TileType.GRASS:
-                    _texture = GameManager.textures[grassType];
+                    success = (!TextureManager.textureDictionary.TryGetValue(TileType.GRASS, out textureRectangle));
+                    break;
+                case TileType.GRASS2:
+                    success = (!TextureManager.textureDictionary.TryGetValue(TileType.GRASS2, out textureRectangle));
+                    break;
+                case TileType.GRASS3:
+                    success = (!TextureManager.textureDictionary.TryGetValue(TileType.GRASS3, out textureRectangle));
                     break;
                 case TileType.DIRT:
-                    _texture = GameManager.textures[4];
+                    success = (!TextureManager.textureDictionary.TryGetValue(TileType.DIRT, out textureRectangle));
                     break;
             }
         }
 
-        public Texture2D GetTexture()
+        public Rectangle GetTextureRectangle()
         {
-            return _texture;
+            return textureRectangle;
         }
     }
 }

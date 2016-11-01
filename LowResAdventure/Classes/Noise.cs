@@ -17,7 +17,7 @@ namespace LowResAdventure
                 {
                     for (int z = 0; z < depth; z++)
                     {
-                        noise[x, y, z] = World.rnd.Next(1, 3);
+                        noise[x, y, z] = World.rnd.Next(1, 5);
                     }
                 }
             }
