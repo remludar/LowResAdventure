@@ -28,7 +28,7 @@ namespace LowResAdventure
                 var rect = new Rectangle(currentColumn * TILE_SIZE, currentRow * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 textureDictionary.Add(type, rect);
                 currentColumn++;
-                if (currentColumn == 10)
+                if (currentColumn == tilesPerRow)
                 {
                     currentRow++;
                     currentColumn = 0;

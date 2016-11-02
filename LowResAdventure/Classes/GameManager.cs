@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 
 namespace LowResAdventure
 {
@@ -10,12 +11,11 @@ namespace LowResAdventure
     /// </summary>
     public class GameManager : Game
     {
-
+        public static GameManager gameManager;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
-        private Camera2D _camera;
 
+        
         //---------------------------
         #region C O N S T R U C T O R
         //---------------------------
@@ -24,9 +24,11 @@ namespace LowResAdventure
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 144.0f);
+            //graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = true;
+            IsFixedTimeStep = false;
             Window.IsBorderless = true;
+            gameManager = this;
         }
         #endregion
 
@@ -35,10 +37,10 @@ namespace LowResAdventure
         //-------------
         protected override void Initialize()
         {
-            _camera = new Camera2D();
-            
-            //Everything after this is done AFTER LoadContent
             base.Initialize();
+
+            //Everything after this is done AFTER LoadContent
+            Camera2D.Init();
             TextureManager.Init();
             Player.Init();
             World.Generate();
@@ -54,6 +56,7 @@ namespace LowResAdventure
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             TextureManager.tileSheet = Content.Load<Texture2D>("Textures/Sheet");
+            Player.font = Content.Load<SpriteFont>("PlayerPosition");
 
         }
         #endregion
@@ -76,9 +79,12 @@ namespace LowResAdventure
                 Exit();
 
             // TODO: Add your update logic here
+
+
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             InputManager.ProcessInput();
+            Camera2D.Update(deltaTime);
             Player.Update(deltaTime);
 
 
@@ -95,7 +101,7 @@ namespace LowResAdventure
 
             // TODO: Add your drawing code here
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, transformMatrix: _camera.GetViewMatrix());
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, transformMatrix: Camera2D.GetViewMatrix());
 
                 World.Draw(spriteBatch);
                 Player.Draw(spriteBatch);

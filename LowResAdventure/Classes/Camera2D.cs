@@ -7,33 +7,44 @@ using System.Threading.Tasks;
 
 namespace LowResAdventure
 {
-    class Camera2D
+    public static class Camera2D
     {
-        public float Zoom { get; set; }
-        public Vector2 Position { get; set; }
-        public float Rotation { get; set; }
-        public Vector2 Origin { get; set; }
+        public static float Zoom { get; set; }
+        public static Vector2 Position { get; set; }
+        public static float Rotation { get; set; }
+        public static Vector2 Origin { get; set; }
+        static Vector2 moveVector = Vector2.Zero;
 
-        public void Move(Vector2 direction)
+        public static void Move(Vector2 direction)
         {
             Position += direction;
         }
 
-
-        public Camera2D()
+        public static void Init()
         {
-            Zoom = 1;
-            Position = Vector2.Zero;
+            Zoom = 0.25f;
             Rotation = 0;
-            Origin = Vector2.Zero;
+            Origin = new Vector2(GameManager.gameManager.Window.ClientBounds.Width / 2.0f, GameManager.gameManager.Window.ClientBounds.Height / 2.0f);
+            Position = Player.position * -TextureManager.TILE_SIZE * TextureManager.SCALE;
+
         }
 
-        public Matrix GetViewMatrix()
+        public static void Update(float deltaTime)
+        {
+            #region noLERP
+            //Position = Player.position * -TextureManager.TILE_SIZE ;
+            //Position = new Vector2((float)Math.Round(Position.X * Zoom) / Zoom, (float)Math.Round(Position.Y * Zoom) / Zoom);
+            #endregion
+            Position = Vector2.Lerp(Position, Player.position * -TextureManager.TILE_SIZE, 0.025f);
+            Position = Vector2.Lerp(Position,  new Vector2((float)Math.Round(Position.X * Zoom) / Zoom, (float)Math.Round(Position.Y * Zoom) / Zoom), 0.5f);
+        }
+
+        public static Matrix GetViewMatrix()
         {
             var translationMatrix = Matrix.CreateTranslation(new Vector3(Position.X, Position.Y, 0));
             var rotationMatrix = Matrix.CreateRotationZ(Rotation);
             var scaleMatrix = Matrix.CreateScale(new Vector3(Zoom, Zoom, 1));
-            var originMatrix = Matrix.CreateTranslation(new Vector3(Origin.X, Origin.Y, 0));
+            var originMatrix = Matrix.CreateTranslation(new Vector3(Origin.X, Origin.Y, 1));
             return
                     translationMatrix *
                     rotationMatrix *

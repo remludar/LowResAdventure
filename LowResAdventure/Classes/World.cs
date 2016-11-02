@@ -62,14 +62,12 @@ namespace LowResAdventure
             {
                 if (kvp.Key.Z == 0)
                 {
-                    var destinationRectangle = new Rectangle(
-                            (int)(kvp.Key.X * TextureManager.TILE_SIZE * TextureManager.SCALE),
-                            (int)(kvp.Key.Y * TextureManager.TILE_SIZE * TextureManager.SCALE),
-                            (int)(TextureManager.TILE_SIZE * TextureManager.SCALE),
-                            (int)(TextureManager.TILE_SIZE * TextureManager.SCALE));
+                    var position = new Vector2(
+                            kvp.Key.X * TextureManager.TILE_SIZE,
+                            kvp.Key.Y * TextureManager.TILE_SIZE);
 
                     var textureRectangle = kvp.Value.GetTextureRectangle();
-                    spriteBatch.Draw(TextureManager.tileSheet, destinationRectangle, textureRectangle, Color.White);
+                    spriteBatch.Draw(TextureManager.tileSheet, position, textureRectangle, Color.White);//, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1);
                 }
             }
         }
