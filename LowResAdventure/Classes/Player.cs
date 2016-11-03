@@ -11,14 +11,14 @@ namespace LowResAdventure
     public static class Player
     {
 
-        public static Vector2 position = new Vector2(World.WORLD_WIDTH * TextureManager.SCALE / 2, World.WORLD_HEIGHT * TextureManager.SCALE / 2);
+        public static Vector2 position = new Vector2(World.WORLD_WIDTH / 2, World.WORLD_HEIGHT / 2);
         public static Vector2 moveVector = Vector2.Zero;
 
         static Rectangle textureRectangle;
         static float lerpFactor = 0.09f;
         static float diagonalCorrection = 0.7071f;
         static float stopingLerpFactor = lerpFactor * 1.75f;
-        static float walkSpeed = 2f;
+        static float walkSpeed = 1f;
         static float runSpeed = walkSpeed * 1.6f;
         static float moveSpeed = walkSpeed;
 
@@ -115,7 +115,7 @@ namespace LowResAdventure
             }
 
             
-            position += moveVector;
+            position += moveVector * TextureManager.TILE_SIZE * TextureManager.SCALE;
             #endregion
 
         }
@@ -123,8 +123,8 @@ namespace LowResAdventure
         public static void Draw(SpriteBatch spriteBatch)
         {
             var playerPosition = new Vector2(
-                            position.X * TextureManager.TILE_SIZE,
-                            position.Y * TextureManager.TILE_SIZE);
+                            position.X * TextureManager.TILE_SIZE * TextureManager.SCALE,
+                            position.Y * TextureManager.TILE_SIZE * TextureManager.SCALE);
 
             spriteBatch.Draw(TextureManager.tileSheet, playerPosition, textureRectangle, Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 0);
         }

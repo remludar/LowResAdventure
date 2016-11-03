@@ -10,14 +10,15 @@ namespace LowResAdventure
 {
     public static class World
     {
-        public static int WORLD_WIDTH = 32;
-        public static int WORLD_HEIGHT = 32;
+        public static int WORLD_WIDTH = 256;
+        public static int WORLD_HEIGHT =256;
         public static int WORLD_DEPTH = 1;
 
         public static Dictionary<Vector3, Tile> tileMap = new Dictionary<Vector3, Tile>();
         public static Random rnd = new Random();
-        static int[, ,] noise;
+        public static int drawCount = 0;
 
+        static int[, ,] noise;
 
         public static void Generate()
         {
@@ -56,8 +57,6 @@ namespace LowResAdventure
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-
-
             foreach (KeyValuePair<Vector3, Tile> kvp in World.tileMap)
             {
                 if (kvp.Key.Z == 0)
@@ -66,8 +65,24 @@ namespace LowResAdventure
                             kvp.Key.X * TextureManager.TILE_SIZE * TextureManager.SCALE,
                             kvp.Key.Y * TextureManager.TILE_SIZE * TextureManager.SCALE);
 
-                    var textureRectangle = kvp.Value.GetTextureRectangle();
-                    spriteBatch.Draw(TextureManager.tileSheet, position, textureRectangle, Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 0);
+                    var staticViewPort = GameManager.gameManager.GraphicsDevice.Viewport.Bounds;
+                    var viewPort = new Rectangle(
+                        (int)(-Camera2D.Position.X - staticViewPort.Width / 2 - 1 * TextureManager.TILE_SIZE * TextureManager.SCALE), 
+                        (int)(-Camera2D.Position.Y - staticViewPort.Height / 2 - 1 * TextureManager.TILE_SIZE * TextureManager.SCALE),
+                        (int)(staticViewPort.Width + 1 * TextureManager.TILE_SIZE * TextureManager.SCALE),
+                        (int)(staticViewPort.Height + 1 * TextureManager.TILE_SIZE * TextureManager.SCALE))
+                        ;
+                    if (viewPort.Contains(position))
+                    {
+                        var textureRectangle = kvp.Value.GetTextureRectangle();
+                        spriteBatch.Draw(TextureManager.tileSheet, position, textureRectangle, Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 0);
+                        drawCount++;
+                    }
+                    else
+                    {
+                        var something = 0;
+                    }
+
                 }
             }
         }

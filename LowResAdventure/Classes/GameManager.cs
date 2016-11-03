@@ -14,7 +14,6 @@ namespace LowResAdventure
         public static GameManager gameManager;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
         
         //---------------------------
         #region C O N S T R U C T O R
@@ -86,7 +85,6 @@ namespace LowResAdventure
 
             InputManager.ProcessInput();
             Camera2D.Update(deltaTime);
-            
             UIManager.Update();
             Player.Update(deltaTime);
 
