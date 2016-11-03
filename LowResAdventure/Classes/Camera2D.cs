@@ -13,16 +13,14 @@ namespace LowResAdventure
         public static Vector2 Position { get; set; }
         public static float Rotation { get; set; }
         public static Vector2 Origin { get; set; }
+        
         static Vector2 moveVector = Vector2.Zero;
-
-        public static void Move(Vector2 direction)
-        {
-            Position += direction;
-        }
+        static float lerpFactor;
 
         public static void Init()
         {
-            Zoom = 0.25f;
+            lerpFactor = 0.025f;
+            Zoom = 1f;
             Rotation = 0;
             Origin = new Vector2(GameManager.gameManager.Window.ClientBounds.Width / 2.0f, GameManager.gameManager.Window.ClientBounds.Height / 2.0f);
             Position = Player.position * -TextureManager.TILE_SIZE * TextureManager.SCALE;
@@ -35,8 +33,11 @@ namespace LowResAdventure
             //Position = Player.position * -TextureManager.TILE_SIZE ;
             //Position = new Vector2((float)Math.Round(Position.X * Zoom) / Zoom, (float)Math.Round(Position.Y * Zoom) / Zoom);
             #endregion
-            Position = Vector2.Lerp(Position, Player.position * -TextureManager.TILE_SIZE, 0.025f);
-            Position = Vector2.Lerp(Position,  new Vector2((float)Math.Round(Position.X * Zoom) / Zoom, (float)Math.Round(Position.Y * Zoom) / Zoom), 0.5f);
+            //Position = Vector2.Lerp(Position, Player.position * -TextureManager.TILE_SIZE, lerpFactor);
+            //Position = Vector2.Lerp(Position, new Vector2((float)Math.Round(Position.X * Zoom) / Zoom, (float)Math.Round(Position.Y * Zoom) / Zoom), 0.5f);
+
+            Position = Player.position * -TextureManager.TILE_SIZE;
+            Position = Vector2.Lerp(Position, new Vector2((float)Math.Round(Position.X * Zoom) / Zoom, (float)Math.Round(Position.Y * Zoom) / Zoom), 0.025f);
         }
 
         public static Matrix GetViewMatrix()
@@ -50,7 +51,7 @@ namespace LowResAdventure
                     rotationMatrix *
                     scaleMatrix *
                     originMatrix;
-
         }
+
     }
 }

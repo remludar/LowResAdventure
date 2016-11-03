@@ -10,8 +10,8 @@ namespace LowResAdventure
 {
     public static class World
     {
-        public static int WORLD_WIDTH = 64;
-        public static int WORLD_HEIGHT = 64;
+        public static int WORLD_WIDTH = 32;
+        public static int WORLD_HEIGHT = 32;
         public static int WORLD_DEPTH = 1;
 
         public static Dictionary<Vector3, Tile> tileMap = new Dictionary<Vector3, Tile>();
@@ -63,11 +63,11 @@ namespace LowResAdventure
                 if (kvp.Key.Z == 0)
                 {
                     var position = new Vector2(
-                            kvp.Key.X * TextureManager.TILE_SIZE,
-                            kvp.Key.Y * TextureManager.TILE_SIZE);
+                            kvp.Key.X * TextureManager.TILE_SIZE * TextureManager.SCALE,
+                            kvp.Key.Y * TextureManager.TILE_SIZE * TextureManager.SCALE);
 
                     var textureRectangle = kvp.Value.GetTextureRectangle();
-                    spriteBatch.Draw(TextureManager.tileSheet, position, textureRectangle, Color.White);//, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 1);
+                    spriteBatch.Draw(TextureManager.tileSheet, position, textureRectangle, Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 0);
                 }
             }
         }

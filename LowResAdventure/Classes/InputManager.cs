@@ -13,7 +13,7 @@ namespace LowResAdventure
         public static bool isKeyA = false;
         public static bool isKeyS = false;
         public static bool isKeyD = false;
-        public static bool isTilde = false;
+        public static bool isF3 = false; 
         public static bool isLeftShift = false;
 
         static KeyboardState oldKeyboardState;
@@ -28,7 +28,7 @@ namespace LowResAdventure
 
             isLeftShift = keyboardState.IsKeyDown(Keys.LeftShift);
 
-            isTilde = oldKeyboardState.IsKeyUp(Keys.OemTilde) && keyboardState.IsKeyDown(Keys.OemTilde);
+            isF3 = oldKeyboardState.IsKeyUp(Keys.F3) && keyboardState.IsKeyDown(Keys.F3);
             oldKeyboardState = keyboardState;
         }
     }

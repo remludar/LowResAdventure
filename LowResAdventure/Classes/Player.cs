@@ -11,20 +11,16 @@ namespace LowResAdventure
     public static class Player
     {
 
-        public static Vector2 position = new Vector2(32,32);
+        public static Vector2 position = new Vector2(World.WORLD_WIDTH * TextureManager.SCALE / 2, World.WORLD_HEIGHT * TextureManager.SCALE / 2);
         public static Vector2 moveVector = Vector2.Zero;
-        public static SpriteFont font;
 
         static Rectangle textureRectangle;
         static float lerpFactor = 0.09f;
         static float diagonalCorrection = 0.7071f;
-        static float stopingLerpFactor = lerpFactor * 1.5f;
-        static bool debug = false;
-        static float walkSpeed = 6;
+        static float stopingLerpFactor = lerpFactor * 1.75f;
+        static float walkSpeed = 2f;
         static float runSpeed = walkSpeed * 1.6f;
         static float moveSpeed = walkSpeed;
-
-
 
         public static void Init()
         {
@@ -112,14 +108,15 @@ namespace LowResAdventure
 
             if (!InputManager.isKeyW && !InputManager.isKeyS && !InputManager.isKeyD && !InputManager.isKeyA)
             {
-                moveVector = Vector2.Lerp(moveVector, Vector2.Zero, stopingLerpFactor);
+                if (Helpers.AlmostEquals(moveVector, Vector2.Zero, 0.00001f))
+                    moveVector = Vector2.Zero;
+                else
+                    moveVector = Vector2.Lerp(moveVector, Vector2.Zero, stopingLerpFactor);
             }
 
             
             position += moveVector;
             #endregion
-
-            if (InputManager.isTilde) debug = !debug;
 
         }
 
@@ -129,9 +126,7 @@ namespace LowResAdventure
                             position.X * TextureManager.TILE_SIZE,
                             position.Y * TextureManager.TILE_SIZE);
 
-            spriteBatch.Draw(TextureManager.tileSheet, playerPosition, textureRectangle, Color.White);
-            //spriteBatch.DrawString(font, "Move Vector: " + moveVector, playerPosition, Color.White);
-            spriteBatch.DrawString(font, "Move Vector: " + moveVector, playerPosition, Color.White, 0, Vector2.Zero, 5.0f, SpriteEffects.None, 0);
+            spriteBatch.Draw(TextureManager.tileSheet, playerPosition, textureRectangle, Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 0);
         }
     }
 }

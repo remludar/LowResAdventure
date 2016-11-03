@@ -41,6 +41,7 @@ namespace LowResAdventure
 
             //Everything after this is done AFTER LoadContent
             Camera2D.Init();
+            UIManager.Init();
             TextureManager.Init();
             Player.Init();
             World.Generate();
@@ -56,7 +57,7 @@ namespace LowResAdventure
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             TextureManager.tileSheet = Content.Load<Texture2D>("Textures/Sheet");
-            Player.font = Content.Load<SpriteFont>("PlayerPosition");
+            UIManager.debugFont = Content.Load<SpriteFont>("PlayerPosition");
 
         }
         #endregion
@@ -85,6 +86,8 @@ namespace LowResAdventure
 
             InputManager.ProcessInput();
             Camera2D.Update(deltaTime);
+            
+            UIManager.Update();
             Player.Update(deltaTime);
 
 
@@ -104,6 +107,7 @@ namespace LowResAdventure
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, transformMatrix: Camera2D.GetViewMatrix());
 
                 World.Draw(spriteBatch);
+                UIManager.Draw(spriteBatch);
                 Player.Draw(spriteBatch);
 
             spriteBatch.End();
