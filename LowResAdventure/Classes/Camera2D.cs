@@ -16,17 +16,17 @@ namespace LowResAdventure
         
         static Vector2 moveVector = Vector2.Zero;
         static float lerpFactor;
+        static float stopingLerpFactor;
         public static BoundingFrustum boundingFrustrum;
 
         public static void Init()
         {
-            
             lerpFactor = 0.1f;
+            stopingLerpFactor = lerpFactor * 1.75f;
             Zoom = 1f;
             Rotation = 0;
             Origin = new Vector2(GameManager.gameManager.Window.ClientBounds.Width / 2.0f, GameManager.gameManager.Window.ClientBounds.Height / 2.0f);
             Position = Player.position * -TextureManager.TILE_SIZE * TextureManager.SCALE;
-
         }
 
         public static void Update(float deltaTime)
@@ -36,7 +36,17 @@ namespace LowResAdventure
             //Position = new Vector2((float)Math.Round(Position.X * Zoom) / Zoom, (float)Math.Round(Position.Y * Zoom) / Zoom);
             #endregion
             var targetPosition = -Player.position * TextureManager.TILE_SIZE * TextureManager.SCALE;
-            Position = Vector2.Lerp(Position, new Vector2((float)Math.Round(targetPosition.X * Zoom) / Zoom, (float)Math.Round(targetPosition.Y * Zoom) / Zoom), lerpFactor);
+            if (Helpers.AlmostEquals(Player.moveVector, Vector2.Zero, 0.00001f))
+            {
+                Position = targetPosition;
+            }
+            else
+            {
+                Position = Vector2.Lerp(Position, new Vector2((float)Math.Round(targetPosition.X * Zoom) / Zoom, (float)Math.Round(targetPosition.Y * Zoom) / Zoom), lerpFactor);
+
+            }
+
+            
         }
 
         public static Matrix GetViewMatrix()
