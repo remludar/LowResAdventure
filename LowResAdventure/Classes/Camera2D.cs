@@ -21,22 +21,45 @@ namespace LowResAdventure
         public static void Init()
         {
             
-            lerpFactor = 0.1f;
+            lerpFactor = 0.4f;
             Zoom = 1f;
             Rotation = 0;
             Origin = new Vector2(GameManager.gameManager.Window.ClientBounds.Width / 2.0f, GameManager.gameManager.Window.ClientBounds.Height / 2.0f);
-            Position = Player.position * -TextureManager.TILE_SIZE * TextureManager.SCALE;
+            Position = Player.position * -TextureManager.TILE_SIZE;
 
         }
 
         public static void Update(float deltaTime)
         {
-            #region noLERP
-            //Position = Player.position * -TextureManager.TILE_SIZE ;
-            //Position = new Vector2((float)Math.Round(Position.X * Zoom) / Zoom, (float)Math.Round(Position.Y * Zoom) / Zoom);
+
+            #region noRoundingNoLerp
+            //var targetPosition = new Vector2(
+            //        -Player.position.X * TextureManager.TILE_SIZE,
+            //        -Player.position.Y * TextureManager.TILE_SIZE);
+            //Position = targetPosition;
             #endregion
-            var targetPosition = -Player.position * TextureManager.TILE_SIZE * TextureManager.SCALE;
-            Position = Vector2.Lerp(Position, new Vector2((float)Math.Round(targetPosition.X * Zoom) / Zoom, (float)Math.Round(targetPosition.Y * Zoom) / Zoom), lerpFactor);
+
+            #region noLERP
+            //var targetPosition = new Vector2(
+            //        (float)Math.Round(-Player.position.X * TextureManager.TILE_SIZE * Zoom) / Zoom,
+            //        (float)Math.Round(-Player.position.Y * TextureManager.TILE_SIZE * Zoom) / Zoom);
+            //Position = targetPosition;
+            #endregion
+
+            #region LERP
+            //var targetPosition = -Player.position * TextureManager.TILE_SIZE;
+            //Position = Vector2.Lerp(
+            //                Position, new Vector2(
+            //                (float)Math.Round(targetPosition.X * Zoom) / Zoom, 
+            //                (float)Math.Round(targetPosition.Y * Zoom) / Zoom), lerpFactor);
+            #endregion
+
+            #region noRoundingLERP
+            var targetPosition = -Player.position * TextureManager.TILE_SIZE;
+            Position = Vector2.Lerp(Position, targetPosition, lerpFactor);
+            #endregion
+
+
         }
 
         public static Matrix GetViewMatrix()

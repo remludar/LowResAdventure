@@ -10,8 +10,9 @@ namespace LowResAdventure
 {
     public static class TextureManager
     {
-        public static float SCALE = 0.25f;
-        public static int TILE_SIZE = 64;
+        //public static float SCALE = 1f;
+        public static int TILE_SIZE = 16;
+        public static int TILE_BUFFER = 2;
 
         public static Texture2D tileSheet;
         public static Dictionary<TileType, Rectangle> textureDictionary = new Dictionary<TileType, Rectangle>();
@@ -25,7 +26,7 @@ namespace LowResAdventure
 
             foreach(TileType type in Enum.GetValues(typeof(TileType)))
             {
-                var rect = new Rectangle(currentColumn * TILE_SIZE, currentRow * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                var rect = new Rectangle(currentColumn * (TILE_SIZE + TILE_BUFFER) + 1, currentRow * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 textureDictionary.Add(type, rect);
                 currentColumn++;
                 if (currentColumn == tilesPerRow)

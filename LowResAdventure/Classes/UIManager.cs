@@ -12,7 +12,7 @@ namespace LowResAdventure
     {
         public static SpriteFont debugFont;
 
-        static bool isDebugMode = false;
+        static bool isDebugMode = true;
         static Vector2 debugConsoleArea;
 
         public static void Init()
@@ -31,13 +31,14 @@ namespace LowResAdventure
 
         public static void Draw(SpriteBatch spriteBatch)
         {
+            var fontColor = Color.Black;
             if (isDebugMode)
             {
-                spriteBatch.DrawString(debugFont, "Move Vector: " + Player.moveVector, debugConsoleArea, Color.White, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(debugFont, "Move Vector: " + Player.moveVector, debugConsoleArea, fontColor, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
                 debugConsoleArea += Vector2.UnitY * debugFont.LineSpacing;
-                spriteBatch.DrawString(debugFont, "Camera Position: " + Camera2D.Position, debugConsoleArea, Color.White, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(debugFont, "Camera Position: " + Camera2D.Position, debugConsoleArea, fontColor, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
                 debugConsoleArea += Vector2.UnitY * debugFont.LineSpacing;
-                spriteBatch.DrawString(debugFont, "Draw Count: " + World.drawCount, debugConsoleArea, Color.White, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(debugFont, "Draw Count: " + World.drawCount, debugConsoleArea, fontColor, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
                 World.drawCount = 0;
             }
                 

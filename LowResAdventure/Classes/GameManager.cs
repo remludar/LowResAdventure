@@ -55,8 +55,8 @@ namespace LowResAdventure
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            TextureManager.tileSheet = Content.Load<Texture2D>("Textures/Sheet");
-            UIManager.debugFont = Content.Load<SpriteFont>("PlayerPosition");
+            TextureManager.tileSheet = Content.Load<Texture2D>("Textures/Sheet_18x18");
+            UIManager.debugFont = Content.Load<SpriteFont>("Fonts/debugFont");
 
         }
         #endregion

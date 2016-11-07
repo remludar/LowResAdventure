@@ -62,25 +62,21 @@ namespace LowResAdventure
                 if (kvp.Key.Z == 0)
                 {
                     var position = new Vector2(
-                            kvp.Key.X * TextureManager.TILE_SIZE * TextureManager.SCALE,
-                            kvp.Key.Y * TextureManager.TILE_SIZE * TextureManager.SCALE);
+                            kvp.Key.X * TextureManager.TILE_SIZE,
+                            kvp.Key.Y * TextureManager.TILE_SIZE);
 
                     var staticViewPort = GameManager.gameManager.GraphicsDevice.Viewport.Bounds;
                     var viewPort = new Rectangle(
-                        (int)(-Camera2D.Position.X - staticViewPort.Width / 2 - 1 * TextureManager.TILE_SIZE * TextureManager.SCALE), 
-                        (int)(-Camera2D.Position.Y - staticViewPort.Height / 2 - 1 * TextureManager.TILE_SIZE * TextureManager.SCALE),
-                        (int)(staticViewPort.Width + 1 * TextureManager.TILE_SIZE * TextureManager.SCALE),
-                        (int)(staticViewPort.Height + 1 * TextureManager.TILE_SIZE * TextureManager.SCALE))
+                        (int)(-Camera2D.Position.X - staticViewPort.Width / 2 - 1 * TextureManager.TILE_SIZE), 
+                        (int)(-Camera2D.Position.Y - staticViewPort.Height / 2 - 1 * TextureManager.TILE_SIZE),
+                        (int)(staticViewPort.Width + 1 * TextureManager.TILE_SIZE),
+                        (int)(staticViewPort.Height + 1 * TextureManager.TILE_SIZE))
                         ;
                     if (viewPort.Contains(position))
                     {
                         var textureRectangle = kvp.Value.GetTextureRectangle();
-                        spriteBatch.Draw(TextureManager.tileSheet, position, textureRectangle, Color.White, 0, Vector2.Zero, 0.25f, SpriteEffects.None, 0);
+                        spriteBatch.Draw(TextureManager.tileSheet, position, textureRectangle, Color.White);
                         drawCount++;
-                    }
-                    else
-                    {
-                        var something = 0;
                     }
 
                 }
